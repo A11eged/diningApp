@@ -1,6 +1,9 @@
-# Getting Started with Create React App
+## To Bypass CORS and other Trackers
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security
+
+Add to sys env
+C:\Program Files\Google\Chrome\Application
 
 ## Available Scripts
 
