@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Import of function
 /*
  @param String html    The string with HTML which has be converted to a DOM object
  @param func callback  (optional) Callback(HTMLDocument doc, function destroy)
@@ -399,8 +400,6 @@ const DataRetrieval = () => {
       // console.log(typeof data.breakfast[breakfastOfferings[0]]);
       // // break up string
       const string = data.dinner[dinnerOfferings[2]];
-      // console.log(parse_response(string));
-
       // string2dom(
       //   '<html><head><title>Test</title></head></html>',
       //   function (doc, destroy) {
@@ -412,12 +411,17 @@ const DataRetrieval = () => {
       // var test = string2dom("<div id='secret'></div>");
       // alert(test.doc.getElementById('secret').tagName); /* Alert: "DIV" */
       // test.destroy();
+      console.log(string);
+      var contents = string2dom(string);
+      var doc = contents.doc;
+      const menu_category_name =
+        doc.getElementsByClassName('menu_category_name')[0].textContent;
+      const menu_item_properties = doc.getElementsByTagName('a');
+      // menuproperties is an array containing A's
 
-      console.log(
-        string2dom(string, function (doc, destroy) {
-          alert(doc.body);
-        })
-      );
+      // food item name
+      console.log(menu_item_properties[0].textContent);
+      console.log(menu_item_properties[0].dataset.ingredientList);
     });
   console.log(response);
   return <div></div>;
