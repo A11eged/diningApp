@@ -450,6 +450,10 @@ const DataRetrieval = () => {
           var contents = string2dom(to_parse);
           var doc = contents.doc;
           console.log(doc);
+
+          // ERROR HERE
+          // need to access menu item property
+          // need to have if statements for edge cases
           const menu_item_properties = doc.getElementsByTagName('a');
           console.log(menu_item_properties);
           for (let k = 0; k < menu_item_properties.length; k++) {
