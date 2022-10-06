@@ -370,26 +370,51 @@ const DataRetrieval = () => {
   // };
 
   // data.breakfast/lunch/dinner
-  const times = ['breakfast', 'lunch', 'dinner', 'latenight', 'grabngo'];
-  const breakfastOfferings = [
+  const breakfast = [
     'Breakfast Entrees',
     'Breakfast Pastries',
     'GF Hot Breakfast',
   ];
-  const lunchOfferings = [
+  const lunch = [
     'Desserts',
+    'Deli Bar',
     'Entrees',
     'Express',
     'Grill Station',
     'Soups',
+    'Gluten Free',
+    'Latino FRK HMP',
+    'Lunch/Dinner Miscellaneous',
+    'Pasta Bar',
+    'Starches',
+    'Sushi',
+    'Vegetables',
+    'Vegetarian Line',
+    'Pizza',
   ];
-  const dinnerOfferings = [
+  const grabngo = [`Grab n'Go Cold`, `Grab n'Go Hot`];
+  const dinner = [
     'Desserts',
     'Entrees',
+    'Pizza',
     'Express',
     'Grill Station',
     'Soups',
+    'Gluten Free',
+    'Latino FRK HMP',
+    'Lunch/Dinner Miscellaneous',
+    'Pasta Bar',
+    'Starches',
+    'Sushi',
+    'Vegetables',
+    'Vegetarian Line',
   ];
+  // , latenight, grabngo
+  const times = [breakfast, lunch, dinner, grabngo];
+  const literal_times = ['breakfast', 'lunch', 'dinner', 'grabngo'];
+  console.log(times[1].length);
+  console.log(request_url + request_params);
+  // Crafting Backend Request
   const response = fetch(request_url + request_params)
     .then((response) => response.json())
     .then((data) => {
@@ -399,7 +424,6 @@ const DataRetrieval = () => {
       // // string
       // console.log(typeof data.breakfast[breakfastOfferings[0]]);
       // // break up string
-      const string = data.dinner[dinnerOfferings[2]];
       // string2dom(
       //   '<html><head><title>Test</title></head></html>',
       //   function (doc, destroy) {
@@ -411,17 +435,90 @@ const DataRetrieval = () => {
       // var test = string2dom("<div id='secret'></div>");
       // alert(test.doc.getElementById('secret').tagName); /* Alert: "DIV" */
       // test.destroy();
-      console.log(string);
-      var contents = string2dom(string);
-      var doc = contents.doc;
-      const menu_category_name =
-        doc.getElementsByClassName('menu_category_name')[0].textContent;
-      const menu_item_properties = doc.getElementsByTagName('a');
-      // menuproperties is an array containing A's
+      // console.log(string);
 
-      // food item name
-      console.log(menu_item_properties[0].textContent);
-      console.log(menu_item_properties[0].dataset.ingredientList);
+      const string = data.dinner[dinner[2]];
+      var contents = string2dom(string);
+      // var doc = contents.doc;
+      for (let i = 0; i < times.length; i++) {
+        for (let j = 0; j < times[i].length; j++) {
+          // console.log(i);
+          // console.log(j);
+          var time_food = literal_times[i];
+          var time_food_station = times[i][j];
+          var to_parse = 'data.' + time_food + '.' + time_food_station;
+          var contents = string2dom(to_parse);
+          var doc = contents.doc;
+          console.log(doc);
+          const menu_item_properties = doc.getElementsByTagName('a');
+          console.log(menu_item_properties);
+          for (let k = 0; k < menu_item_properties.length; k++) {
+            var menu_item = {
+              item_name: menu_item_properties[k].dataset.dishName,
+              ingredients: menu_item_properties[k].dataset.ingredientList,
+              healthfulness: menu_item_properties[k].dataset.healthfulness,
+              carbon_footprint: menu_item_properties[k].dataset.carbonList,
+              allergens: menu_item_properties[k].dataset.allergens,
+              clean_diet: menu_item_properties[k].dataset.cleanDietStr,
+              serving_size: menu_item_properties[k].dataset.servingSize,
+              calories: menu_item_properties[k].dataset.calories,
+              calories_from_fat:
+                menu_item_properties[k].dataset.caloriesFromFat,
+              total_fat: menu_item_properties[k].dataset.totalFat,
+              total_fat_dv: menu_item_properties[k].dataset.totalFatDv,
+              sat_fat: menu_item_properties[k].dataset.satFat,
+              sat_fat_dv: menu_item_properties[k].dataset.satFatDv,
+              trans_fat: menu_item_properties[k].dataset.transFat,
+              cholesterol: menu_item_properties[k].dataset.cholesterol,
+              cholesterol_dv: menu_item_properties[k].dataset.cholesterol_dv,
+              sodium: menu_item_properties[k].dataset.sodium,
+              sodium_dv: menu_item_properties[k].dataset.sodiumDv,
+              total_carbs: menu_item_properties[k].dataset.totalCarb,
+              total_carbs_dv: menu_item_properties[k].dataset.totalCarbDv,
+              dietary_fiber: menu_item_properties[k].dataset.dietaryFiber,
+              dietary_fiber_dv: menu_item_properties[k].dataset.dietaryFiberDv,
+              sugars: menu_item_properties[k].dataset.sugars,
+              sugars_dv: menu_item_properties[k].dataset.sugarsDv,
+              protein: menu_item_properties[k].dataset.protein,
+              protein_dv: menu_item_properties[k].dataset.proteinDv,
+            };
+            console.log('1' + menu_item);
+          }
+        }
+      }
+      // const menu_category_name =
+      //   doc.getElementsByClassName('menu_category_name')[0].textContent;
+      // const menu_item_properties = doc.getElementsByTagName('a');
+      // // food item name
+      // var menu_item = {
+      //   item_name: menu_item_properties[0].dataset.dishName,
+      //   ingredients: menu_item_properties[0].dataset.ingredientList,
+      //   healthfulness: menu_item_properties[0].dataset.healthfulness,
+      //   carbon_footprint: menu_item_properties[0].dataset.carbonList,
+      //   allergens: menu_item_properties[0].dataset.allergens,
+      //   clean_diet: menu_item_properties[0].dataset.cleanDietStr,
+      //   serving_size: menu_item_properties[0].dataset.servingSize,
+      //   calories: menu_item_properties[0].dataset.calories,
+      //   calories_from_fat: menu_item_properties[0].dataset.caloriesFromFat,
+      //   total_fat: menu_item_properties[0].dataset.totalFat,
+      //   total_fat_dv: menu_item_properties[0].dataset.totalFatDv,
+      //   sat_fat: menu_item_properties[0].dataset.satFat,
+      //   sat_fat_dv: menu_item_properties[0].dataset.satFatDv,
+      //   trans_fat: menu_item_properties[0].dataset.transFat,
+      //   cholesterol: menu_item_properties[0].dataset.cholesterol,
+      //   cholesterol_dv: menu_item_properties[0].dataset.cholesterol_dv,
+      //   sodium: menu_item_properties[0].dataset.sodium,
+      //   sodium_dv: menu_item_properties[0].dataset.sodiumDv,
+      //   total_carbs: menu_item_properties[0].dataset.totalCarb,
+      //   total_carbs_dv: menu_item_properties[0].dataset.totalCarbDv,
+      //   dietary_fiber: menu_item_properties[0].dataset.dietaryFiber,
+      //   dietary_fiber_dv: menu_item_properties[0].dataset.dietaryFiberDv,
+      //   sugars: menu_item_properties[0].dataset.sugars,
+      //   sugars_dv: menu_item_properties[0].dataset.sugarsDv,
+      //   protein: menu_item_properties[0].dataset.protein,
+      //   protein_dv: menu_item_properties[0].dataset.proteinDv,
+      // };
+      // console.log(menu_item);
     });
   console.log(response);
   return <div></div>;
