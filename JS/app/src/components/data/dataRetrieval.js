@@ -412,13 +412,14 @@ const DataRetrieval = () => {
   // , latenight, grabngo
   const times = [breakfast, lunch, dinner, grabngo];
   const literal_times = ['breakfast', 'lunch', 'dinner', 'grabngo'];
-  console.log(times[1].length);
-  console.log(request_url + request_params);
+  // console.log(times[1].length);
+  // console.log(request_url + request_params);
+
   // Crafting Backend Request
   const response = fetch(request_url + request_params)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       // console.log(typeof data.breakfast);
       // console.log(data.breakfast);
       // // string
@@ -438,7 +439,8 @@ const DataRetrieval = () => {
       // console.log(string);
 
       const string = data.dinner[dinner[2]];
-      var contents = string2dom(string);
+      console.log('string' + string);
+      // var contents = string2dom(string);
       // var doc = contents.doc;
       for (let i = 0; i < times.length; i++) {
         for (let j = 0; j < times[i].length; j++) {
@@ -446,7 +448,10 @@ const DataRetrieval = () => {
           // console.log(j);
           var time_food = literal_times[i];
           var time_food_station = times[i][j];
-          var to_parse = 'data.' + time_food + '.' + time_food_station;
+          // find another way to call string
+
+          var to_parse = `${data}.+ ${time_food} + '.' + ${time_food_station}`;
+          console.log('string2' + to_parse);
           var contents = string2dom(to_parse);
           var doc = contents.doc;
           console.log(doc);
@@ -455,8 +460,9 @@ const DataRetrieval = () => {
           // need to access menu item property
           // need to have if statements for edge cases
           const menu_item_properties = doc.getElementsByTagName('a');
-          console.log(menu_item_properties);
+          // console.log('Properties ' + menu_item_properties);
           for (let k = 0; k < menu_item_properties.length; k++) {
+            console.log(menu_item_properties[k]);
             var menu_item = {
               item_name: menu_item_properties[k].dataset.dishName,
               ingredients: menu_item_properties[k].dataset.ingredientList,
@@ -486,7 +492,8 @@ const DataRetrieval = () => {
               protein: menu_item_properties[k].dataset.protein,
               protein_dv: menu_item_properties[k].dataset.proteinDv,
             };
-            console.log('1' + menu_item);
+
+            console.log('Menu Item' + menu_item);
           }
         }
       }
